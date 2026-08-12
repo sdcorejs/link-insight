@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="manifest.open_in_tab" content="true" />
+    <title>SdCoreJS Link Insight settings</title>
+    <script type="module" src="./main.ts"></script>
+  </head>
+  <body>
+    <main class="settings-card" aria-labelledby="page-title">
+      <header>
+        <p class="eyebrow">SdCoreJS Link Insight</p>
+        <h1 id="page-title">Gemini settings</h1>
+        <p class="intro">
+          To use this extension, you need a Google Gemini API Key. Get your free API key here:
+          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer"
+            >Google AI Studio</a
+          >
+        </p>
+      </header>
+
+      <form id="api-key-form" method="post" novalidate>
+        <label for="gemini-api-key">Google Gemini API key</label>
+        <p id="key-help" class="field-help">The key remains concealed while you type.</p>
+        <input
+          id="gemini-api-key"
+          type="password"
+          autocomplete="off"
+          spellcheck="false"
+          aria-describedby="key-help"
+          placeholder="Enter your Gemini API key"
+        />
+
+        <div class="actions">
+          <button type="submit" class="primary">Save</button>
+          <button id="clear-key" type="button" class="secondary">Clear key</button>
+        </div>
+      </form>
+
+      <p id="save-status" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <section class="disclosure" aria-labelledby="privacy-title">
+        <h2 id="privacy-title">Before you continue</h2>
+        <ul>
+          <li>Your key is stored locally on this device.</li>
+          <li>Work-item content is sent directly to Google Gemini for summarization.</li>
+          <li>Gemini quota or pricing may apply to your key.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

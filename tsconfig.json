@@ -1,0 +1,19 @@
+{
+  "extends": "./.wxt/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "useUnknownInCatchVariables": true,
+    "noEmit": true,
+    "types": ["chrome", "node", "vitest/globals"]
+  },
+  "include": [
+    "entrypoints/**/*.ts",
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    ".wxt/wxt.d.ts",
+    "wxt.config.ts",
+    "vitest.config.ts"
+  ]
+}

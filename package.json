@@ -1,0 +1,36 @@
+{
+  "name": "sdcorejs-link-insight",
+  "version": "0.1.0",
+  "description": "Secure BYOK Gemini summaries for Jira and Confluence links in Google Chat.",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.7",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build && node scripts/validate-manifest.mjs",
+    "zip": "wxt zip",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build",
+    "postinstall": "wxt prepare"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/chrome": "0.2.5",
+    "@types/node": "22.20.1",
+    "eslint": "10.0.1",
+    "jsdom": "30.0.1",
+    "prettier": "3.9.6",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.67.0",
+    "vitest": "4.1.10",
+    "wxt": "0.21.4"
+  }
+}
