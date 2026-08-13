@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

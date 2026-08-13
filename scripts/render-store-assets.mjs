@@ -3,7 +3,7 @@ import { constants as fsConstants } from 'node:fs';
 import { access, mkdir, mkdtemp, rm, stat } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL, URL } from 'node:url';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sourceDocument = path.join(projectRoot, 'store-assets', 'source', 'listing-assets.html');
