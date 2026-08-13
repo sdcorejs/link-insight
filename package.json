@@ -19,6 +19,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "store:assets": "node scripts/render-store-assets.mjs && node scripts/validate-store-assets.mjs",
+    "store:assets:validate": "node scripts/validate-store-assets.mjs",
     "worker:test": "vitest run --config worker/vitest.config.ts",
     "worker:typecheck": "tsc --noEmit -p worker/tsconfig.json",
     "worker:build": "cd worker && wrangler deploy --dry-run --config wrangler.jsonc --outdir dist",
