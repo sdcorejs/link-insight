@@ -3,6 +3,7 @@ node_modules/
 .wxt/
 coverage/
 .wrangler/
+.superpowers/
 worker/dist/
 *.log
 *.pem
