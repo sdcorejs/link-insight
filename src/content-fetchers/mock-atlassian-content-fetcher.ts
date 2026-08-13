@@ -6,8 +6,6 @@ interface MockFetcherOptions {
   readonly delayMs?: number;
 }
 
-const JIRA_STATUSES = ['In Progress', 'Open', 'In Review', 'Blocked'] as const;
-const JIRA_PRIORITIES = ['High', 'Medium', 'Low', 'Critical'] as const;
 const MOCK_PEOPLE = ['Alex Nguyen', 'Jamie Tran', 'Morgan Lee', 'Sam Patel'] as const;
 
 export class MockAtlassianContentFetcher implements ContentFetcher {
@@ -18,10 +16,7 @@ export class MockAtlassianContentFetcher implements ContentFetcher {
   }
 
   supports(resource: LinkResource): boolean {
-    return (
-      resource.providerId === 'atlassian' &&
-      (resource.resourceType === 'jira-issue' || resource.resourceType === 'confluence-page')
-    );
+    return resource.providerId === 'atlassian' && resource.resourceType === 'confluence-page';
   }
 
   async fetch(resource: LinkResource): Promise<NormalizedLinkContent> {
@@ -36,30 +31,8 @@ export class MockAtlassianContentFetcher implements ContentFetcher {
       await delay(this.delayMs);
     }
 
-    return resource.resourceType === 'jira-issue'
-      ? createJiraContent(resource)
-      : createConfluenceContent(resource);
+    return createConfluenceContent(resource);
   }
-}
-
-function createJiraContent(resource: LinkResource): NormalizedLinkContent {
-  const seed = stableSeed(resource.identifier);
-  const status = select(JIRA_STATUSES, seed);
-  const priority = select(JIRA_PRIORITIES, seed + 1);
-  const assignee = select(MOCK_PEOPLE, seed + 2);
-
-  return {
-    providerId: resource.providerId,
-    resourceType: resource.resourceType,
-    identifier: resource.identifier,
-    title: `${resource.identifier}: Improve reliability for the linked workflow`,
-    body: 'The team is tracking a reproducible workflow issue. The proposed change adds validation, preserves existing behavior, and includes regression coverage before rollout.',
-    attributes: {
-      status,
-      priority,
-      assignee,
-    },
-  };
 }
 
 function createConfluenceContent(resource: LinkResource): NormalizedLinkContent {

@@ -49,7 +49,7 @@ describe('GeminiSummarizer request construction', () => {
 
     expect(fetchMock).toHaveBeenCalledOnce();
     const [url, init] = fetchMock.mock.calls[0] ?? [];
-    expect(url).toBe('https://generativelanguage.googleapis.com/v1/interactions');
+    expect(url).toBe('https://generativelanguage.googleapis.com/v1beta/interactions');
     expect(String(url)).not.toContain('unit-test-credential');
     expect(init?.headers).toEqual({
       'Content-Type': 'application/json',

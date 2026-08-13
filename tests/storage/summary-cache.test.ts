@@ -44,6 +44,19 @@ describe('SummaryCache', () => {
     await expect(new SummaryCache(storage).get(URL)).resolves.toBeNull();
     expect(storage.values.size).toBe(0);
   });
+
+  it('invalidates only the requested canonical URL', async () => {
+    const storage = new MemoryStorageArea();
+    const cache = new SummaryCache(storage);
+    const otherUrl = 'https://acme.atlassian.net/browse/CORE-999';
+    await cache.set(URL, SUMMARY);
+    await cache.set(otherUrl, SUMMARY);
+
+    await cache.invalidate(URL);
+
+    await expect(cache.get(URL)).resolves.toBeNull();
+    await expect(cache.get(otherUrl)).resolves.toEqual(SUMMARY);
+  });
 });
 
 describe('SummaryRequestCoordinator', () => {
@@ -90,5 +103,25 @@ describe('SummaryRequestCoordinator', () => {
     await expect(coordinator.getOrCreate(URL, loader)).rejects.toThrow('temporary failure');
     await expect(coordinator.getOrCreate(URL, loader)).resolves.toEqual(SUMMARY);
     expect(loader).toHaveBeenCalledTimes(2);
+  });
+
+  it('does not let an invalidated in-flight summary repopulate the cache', async () => {
+    const cache = new SummaryCache(new MemoryStorageArea());
+    const coordinator = new SummaryRequestCoordinator(cache);
+    let resolveLoader: ((summary: AiSummary) => void) | undefined;
+    const oldRequest = coordinator.getOrCreate(
+      URL,
+      () =>
+        new Promise<AiSummary>((resolve) => {
+          resolveLoader = resolve;
+        }),
+    );
+    await coordinator.invalidate(URL);
+    resolveLoader?.(SUMMARY);
+    await oldRequest;
+
+    const freshLoader = vi.fn(async () => SUMMARY);
+    await coordinator.getOrCreate(URL, freshLoader);
+    expect(freshLoader).toHaveBeenCalledOnce();
   });
 });

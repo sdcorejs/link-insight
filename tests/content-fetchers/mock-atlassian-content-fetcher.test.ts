@@ -26,21 +26,11 @@ const CONFLUENCE_RESOURCE: LinkResource = {
 describe('MockAtlassianContentFetcher', () => {
   const fetcher = new MockAtlassianContentFetcher({ delayMs: 0 });
 
-  it('returns deterministic normalized Jira content', async () => {
-    const first = await fetcher.fetch(JIRA_RESOURCE);
-    const second = await fetcher.fetch(JIRA_RESOURCE);
-
-    expect(first).toEqual(second);
-    expect(first.providerId).toBe('atlassian');
-    expect(first.resourceType).toBe('jira-issue');
-    expect(first.identifier).toBe('CORE-123');
-    expect(first.title).toContain('CORE-123');
-    expect(first.attributes).toMatchObject({
-      status: expect.any(String),
-      priority: expect.any(String),
-      assignee: expect.any(String),
+  it('never falls back to mock data for Jira issues', async () => {
+    expect(fetcher.supports(JIRA_RESOURCE)).toBe(false);
+    await expect(fetcher.fetch(JIRA_RESOURCE)).rejects.toMatchObject({
+      code: 'CONTENT_FETCH_FAILED',
     });
-    expect(first.attributes).not.toHaveProperty('tenant');
   });
 
   it('returns deterministic normalized Confluence content', async () => {
@@ -72,8 +62,8 @@ describe('ContentFetcherRegistry', () => {
   it('routes a resource to the registered fetcher', async () => {
     const registry = new ContentFetcherRegistry([new MockAtlassianContentFetcher({ delayMs: 0 })]);
 
-    await expect(registry.fetch(JIRA_RESOURCE)).resolves.toMatchObject({
-      identifier: 'CORE-123',
+    await expect(registry.fetch(CONFLUENCE_RESOURCE)).resolves.toMatchObject({
+      identifier: '123456',
     });
   });
 

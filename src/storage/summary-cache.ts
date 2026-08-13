@@ -50,6 +50,10 @@ export class SummaryCache {
       },
     });
   }
+
+  async invalidate(canonicalUrl: string): Promise<void> {
+    await this.storage.remove(cacheKey(canonicalUrl));
+  }
 }
 
 function cacheKey(canonicalUrl: string): string {

@@ -11,7 +11,7 @@
     <main class="settings-card" aria-labelledby="page-title">
       <header>
         <p class="eyebrow">SdCoreJS Link Insight</p>
-        <h1 id="page-title">Gemini settings</h1>
+        <h1 id="page-title">Link Insight settings</h1>
         <p class="intro">
           To use this extension, you need a Google Gemini API Key. Get your free API key here:
           <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer"
@@ -39,6 +39,48 @@
       </form>
 
       <p id="save-status" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <section id="jira-settings" class="settings-section" aria-labelledby="jira-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Atlassian OAuth</p>
+            <h2 id="jira-title">Jira connection</h2>
+          </div>
+          <div class="actions compact-actions">
+            <button id="connect-jira" type="button" class="primary">Connect Jira</button>
+            <button id="disconnect-jira" type="button" class="secondary" hidden>Disconnect</button>
+          </div>
+        </div>
+        <p class="section-copy">
+          Connect Jira to read the linked issue and show available status transitions. Access is
+          limited to the Jira sites approved during Atlassian authorization.
+        </p>
+        <p
+          id="jira-connection-status"
+          class="status"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        ></p>
+        <ul id="jira-sites" class="site-list" aria-label="Connected Jira sites"></ul>
+
+        <div class="consent-control">
+          <input id="jira-ai-consent" type="checkbox" />
+          <div>
+            <label for="jira-ai-consent">Allow Jira content in Gemini summaries</label>
+            <p id="jira-consent-help" class="field-help">
+              Off by default. When enabled, the issue summary, description, selected metadata, and
+              up to three recent comments are sent to Google Gemini using your API key.
+            </p>
+          </div>
+        </div>
+        <p class="privacy-link">
+          Review the
+          <a id="jira-privacy-link" href="#" target="_blank" rel="noopener noreferrer"
+            >Worker privacy disclosure</a
+          >.
+        </p>
+      </section>
 
       <section class="disclosure" aria-labelledby="privacy-title">
         <h2 id="privacy-title">Before you continue</h2>

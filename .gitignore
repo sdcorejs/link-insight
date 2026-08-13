@@ -2,6 +2,8 @@ node_modules/
 .output/
 .wxt/
 coverage/
+.wrangler/
+worker/dist/
 *.log
 *.pem
 *.key

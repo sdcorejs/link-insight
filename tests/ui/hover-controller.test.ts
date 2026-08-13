@@ -157,6 +157,34 @@ describe('HoverController', () => {
     expect(popover?.querySelector('li')?.textContent).toBe(malicious);
     expect(popover?.querySelectorAll('li')).toHaveLength(3);
   });
+
+  it('notifies the separate Jira actions port after dwell while summary still hides on mouseout', async () => {
+    const anchor = createAnchor('https://acme.atlassian.net/browse/CORE-777');
+    const actions = { showFor: vi.fn(), linkExited: vi.fn(), stop: vi.fn() };
+    const controller = new HoverController({
+      root: document.body,
+      providers: new LinkProviderRegistry([new AtlassianLinkProvider()]),
+      popover: new Popover(document, window),
+      sendMessage: vi.fn(async (request) => success(request.requestId)),
+      requestIdFactory: () => 'request-actions',
+      jiraActions: actions,
+    });
+    controller.start();
+    mouseOver(anchor);
+    await vi.advanceTimersByTimeAsync(500);
+    expect(actions.showFor).toHaveBeenCalledWith(
+      expect.objectContaining({ identifier: 'CORE-777' }),
+      anchor,
+    );
+
+    const affordance = document.createElement('button');
+    mouseOut(anchor, affordance);
+    expect(document.getElementById(POPOVER_ID)?.hidden).toBe(true);
+    expect(actions.linkExited).toHaveBeenCalledWith(
+      expect.objectContaining({ identifier: 'CORE-777' }),
+      affordance,
+    );
+  });
 });
 
 function setup(

@@ -12,6 +12,13 @@ interface HoverControllerOptions {
   readonly sendMessage: (request: LinkSummaryRequest) => Promise<unknown>;
   readonly dwellMs?: number;
   readonly requestIdFactory?: () => string;
+  readonly jiraActions?: JiraActionsPort;
+}
+
+export interface JiraActionsPort {
+  showFor(resource: LinkResource, anchor: HTMLAnchorElement): void;
+  linkExited(resource: LinkResource, relatedTarget: EventTarget | null): void;
+  stop(): void;
 }
 
 export class HoverController {
@@ -21,6 +28,7 @@ export class HoverController {
   private readonly sendMessage: (request: LinkSummaryRequest) => Promise<unknown>;
   private readonly dwellMs: number;
   private readonly requestIdFactory: () => string;
+  private readonly jiraActions: JiraActionsPort | undefined;
   private activeAnchor: HTMLAnchorElement | null = null;
   private activeResource: LinkResource | null = null;
   private pointerPosition: PointerPosition = { pageX: 0, pageY: 0 };
@@ -35,6 +43,7 @@ export class HoverController {
     this.sendMessage = options.sendMessage;
     this.dwellMs = options.dwellMs ?? RUNTIME_CONFIG.hoverDwellMs;
     this.requestIdFactory = options.requestIdFactory ?? (() => crypto.randomUUID());
+    this.jiraActions = options.jiraActions;
   }
 
   start(): void {
@@ -54,6 +63,7 @@ export class HoverController {
     this.root.removeEventListener('mouseover', this.handleMouseOver);
     this.root.removeEventListener('mouseout', this.handleMouseOut);
     this.deactivate();
+    this.jiraActions?.stop();
   }
 
   private readonly handleMouseOver = (event: MouseEvent): void => {
@@ -91,6 +101,7 @@ export class HoverController {
       return;
     }
 
+    this.jiraActions?.linkExited(resourceOrNull(this.activeResource), event.relatedTarget);
     this.deactivate();
   };
 
@@ -114,6 +125,7 @@ export class HoverController {
       return;
     }
 
+    this.jiraActions?.showFor(resource, anchor);
     this.popover.showLoading(this.pointerPosition);
     const requestId = this.requestIdFactory();
     const request: LinkSummaryRequest = {
@@ -153,6 +165,13 @@ export class HoverController {
       canonicalUrl === this.activeResource?.canonicalUrl
     );
   }
+}
+
+function resourceOrNull(resource: LinkResource | null): LinkResource {
+  if (resource === null) {
+    throw new TypeError('The active hover resource is missing.');
+  }
+  return resource;
 }
 
 function closestAnchor(target: EventTarget | null): HTMLAnchorElement | null {

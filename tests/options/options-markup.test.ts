@@ -31,5 +31,20 @@ describe('Options Page markup', () => {
     expect(form?.method).toBe('post');
     expect(label).not.toBeNull();
     expect(status?.getAttribute('aria-live')).toBe('polite');
+
+    const connect = parsed.querySelector<HTMLButtonElement>('#connect-jira');
+    const disconnect = parsed.querySelector<HTMLButtonElement>('#disconnect-jira');
+    const consent = parsed.querySelector<HTMLInputElement>('#jira-ai-consent');
+    const consentLabel = parsed.querySelector<HTMLLabelElement>('label[for="jira-ai-consent"]');
+    const jiraStatus = parsed.querySelector<HTMLElement>('#jira-connection-status');
+    const privacy = parsed.querySelector<HTMLAnchorElement>('#jira-privacy-link');
+    expect(connect?.type).toBe('button');
+    expect(disconnect?.type).toBe('button');
+    expect(consent?.type).toBe('checkbox');
+    expect(consentLabel).not.toBeNull();
+    expect(jiraStatus?.getAttribute('aria-live')).toBe('polite');
+    expect(privacy?.target).toBe('_blank');
+    expect(privacy?.rel).toBe('noopener noreferrer');
+    expect(parsed.querySelector('input[name*="session" i]')).toBeNull();
   });
 });

@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     clearMocks: true,
     restoreMocks: true,
+    include: ['tests/**/*.test.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],

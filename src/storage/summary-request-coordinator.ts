@@ -3,6 +3,7 @@ import type { SummaryCache } from './summary-cache';
 
 export class SummaryRequestCoordinator {
   private readonly inFlight = new Map<string, Promise<AiSummary>>();
+  private readonly generations = new Map<string, number>();
 
   constructor(private readonly cache: SummaryCache) {}
 
@@ -12,7 +13,8 @@ export class SummaryRequestCoordinator {
       return existing;
     }
 
-    const request = this.load(canonicalUrl, loader);
+    const generation = this.generations.get(canonicalUrl) ?? 0;
+    const request = this.load(canonicalUrl, generation, loader);
     this.inFlight.set(canonicalUrl, request);
     const removeInFlight = (): void => {
       if (this.inFlight.get(canonicalUrl) === request) {
@@ -23,14 +25,26 @@ export class SummaryRequestCoordinator {
     return request;
   }
 
-  private async load(canonicalUrl: string, loader: () => Promise<AiSummary>): Promise<AiSummary> {
+  async invalidate(canonicalUrl: string): Promise<void> {
+    this.generations.set(canonicalUrl, (this.generations.get(canonicalUrl) ?? 0) + 1);
+    this.inFlight.delete(canonicalUrl);
+    await this.cache.invalidate(canonicalUrl);
+  }
+
+  private async load(
+    canonicalUrl: string,
+    generation: number,
+    loader: () => Promise<AiSummary>,
+  ): Promise<AiSummary> {
     const cached = await this.cache.get(canonicalUrl);
     if (cached !== null) {
       return cached;
     }
 
     const summary = await loader();
-    await this.cache.set(canonicalUrl, summary);
+    if ((this.generations.get(canonicalUrl) ?? 0) === generation) {
+      await this.cache.set(canonicalUrl, summary);
+    }
     return summary;
   }
 }
