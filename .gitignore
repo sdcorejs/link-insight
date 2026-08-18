@@ -1,0 +1,13 @@
+node_modules/
+.output/
+.wxt/
+coverage/
+.wrangler/
+.superpowers/
+worker/dist/
+*.log
+*.pem
+*.key
+.env
+.env.*
+!.env.example

@@ -1,0 +1,46 @@
+{
+  "name": "sdcorejs-link-insight",
+  "version": "0.1.0",
+  "description": "Secure BYOK Gemini summaries for Jira and Confluence links in Google Chat.",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.7",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build && node scripts/validate-manifest.mjs",
+    "build:release": "node scripts/validate-manifest.mjs --release-config && wxt build && node scripts/validate-manifest.mjs",
+    "zip": "wxt zip",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "store:assets": "node scripts/render-store-assets.mjs && node scripts/validate-store-assets.mjs",
+    "store:assets:validate": "node scripts/validate-store-assets.mjs",
+    "worker:test": "vitest run --config worker/vitest.config.ts",
+    "worker:typecheck": "tsc --noEmit -p worker/tsconfig.json",
+    "worker:build": "cd worker && wrangler deploy --dry-run --config wrangler.jsonc --outdir dist",
+    "worker:migrate:local": "wrangler d1 migrations apply sdcorejs-link-insight-local --local --config worker/wrangler.jsonc",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run worker:typecheck && npm run worker:test && npm run worker:build && npm run build",
+    "postinstall": "wxt prepare"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.21.2",
+    "@cloudflare/workers-types": "^5.20260813.1",
+    "@eslint/js": "10.0.1",
+    "@types/chrome": "0.2.5",
+    "@types/node": "22.20.1",
+    "eslint": "10.0.1",
+    "jsdom": "30.0.1",
+    "prettier": "3.9.6",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.67.0",
+    "vitest": "4.1.10",
+    "wrangler": "^4.122.0",
+    "wxt": "0.21.4"
+  }
+}

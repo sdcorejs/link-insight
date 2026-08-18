@@ -1,0 +1,89 @@
+export type LinkInsightErrorCode =
+  | 'INVALID_REQUEST'
+  | 'UNAUTHORIZED_SENDER'
+  | 'UNSUPPORTED_LINK'
+  | 'MISSING_API_KEY'
+  | 'INVALID_API_KEY'
+  | 'GEMINI_INVALID_REQUEST'
+  | 'GEMINI_RATE_LIMIT'
+  | 'GEMINI_TIMEOUT'
+  | 'GEMINI_NETWORK_ERROR'
+  | 'GEMINI_UNAVAILABLE'
+  | 'GEMINI_EMPTY_RESPONSE'
+  | 'GEMINI_INVALID_RESPONSE'
+  | 'GEMINI_REQUEST_FAILED'
+  | 'CONTENT_FETCH_FAILED'
+  | 'WORKER_UNAVAILABLE'
+  | 'WORKER_INVALID_RESPONSE'
+  | 'OAUTH_CANCELLED'
+  | 'OAUTH_FAILED'
+  | 'OAUTH_STATE_INVALID'
+  | 'JIRA_NOT_CONNECTED'
+  | 'JIRA_REAUTHORIZATION_REQUIRED'
+  | 'JIRA_SITE_NOT_AUTHORIZED'
+  | 'JIRA_AI_CONSENT_REQUIRED'
+  | 'JIRA_NOT_FOUND'
+  | 'JIRA_FORBIDDEN'
+  | 'JIRA_TRANSITION_STALE'
+  | 'JIRA_FIELD_VALIDATION'
+  | 'JIRA_RATE_LIMIT'
+  | 'JIRA_TIMEOUT'
+  | 'JIRA_NETWORK_ERROR'
+  | 'JIRA_UPSTREAM_ERROR'
+  | 'AMBIGUOUS_WRITE_OUTCOME'
+  | 'INTERNAL_ERROR';
+
+const ERROR_CODES = new Set<LinkInsightErrorCode>([
+  'INVALID_REQUEST',
+  'UNAUTHORIZED_SENDER',
+  'UNSUPPORTED_LINK',
+  'MISSING_API_KEY',
+  'INVALID_API_KEY',
+  'GEMINI_INVALID_REQUEST',
+  'GEMINI_RATE_LIMIT',
+  'GEMINI_TIMEOUT',
+  'GEMINI_NETWORK_ERROR',
+  'GEMINI_UNAVAILABLE',
+  'GEMINI_EMPTY_RESPONSE',
+  'GEMINI_INVALID_RESPONSE',
+  'GEMINI_REQUEST_FAILED',
+  'CONTENT_FETCH_FAILED',
+  'WORKER_UNAVAILABLE',
+  'WORKER_INVALID_RESPONSE',
+  'OAUTH_CANCELLED',
+  'OAUTH_FAILED',
+  'OAUTH_STATE_INVALID',
+  'JIRA_NOT_CONNECTED',
+  'JIRA_REAUTHORIZATION_REQUIRED',
+  'JIRA_SITE_NOT_AUTHORIZED',
+  'JIRA_AI_CONSENT_REQUIRED',
+  'JIRA_NOT_FOUND',
+  'JIRA_FORBIDDEN',
+  'JIRA_TRANSITION_STALE',
+  'JIRA_FIELD_VALIDATION',
+  'JIRA_RATE_LIMIT',
+  'JIRA_TIMEOUT',
+  'JIRA_NETWORK_ERROR',
+  'JIRA_UPSTREAM_ERROR',
+  'AMBIGUOUS_WRITE_OUTCOME',
+  'INTERNAL_ERROR',
+]);
+
+export class LinkInsightError extends Error {
+  override readonly name = 'LinkInsightError';
+
+  constructor(
+    readonly code: LinkInsightErrorCode,
+    message: string,
+  ) {
+    super(message);
+  }
+}
+
+export function isLinkInsightError(error: unknown): error is LinkInsightError {
+  return error instanceof LinkInsightError;
+}
+
+export function isLinkInsightErrorCode(value: unknown): value is LinkInsightErrorCode {
+  return typeof value === 'string' && ERROR_CODES.has(value as LinkInsightErrorCode);
+}

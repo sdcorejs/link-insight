@@ -1,0 +1,174 @@
+#sdcorejs-link-insight-jira-actions {
+  position: absolute;
+  z-index: 2147483646;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1px solid #a9b4c0;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 16%);
+  color: #0b57d0;
+  font:
+    600 12px/1.25 'Google Sans',
+    Roboto,
+    Arial,
+    sans-serif;
+  cursor: pointer;
+}
+
+#sdcorejs-link-insight-jira-actions[hidden],
+#sdcorejs-link-insight-jira-action-card[hidden] {
+  display: none !important;
+}
+
+#sdcorejs-link-insight-jira-action-card {
+  position: fixed;
+  z-index: 2147483647;
+  top: 16px;
+  right: 16px;
+  box-sizing: border-box;
+  width: min(420px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  border: 1px solid #cbd3dc;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 18px 54px rgb(0 0 0 / 24%);
+  color: #17212b;
+  font:
+    400 14px/1.45 'Google Sans',
+    Roboto,
+    Arial,
+    sans-serif;
+}
+
+#sdcorejs-link-insight-jira-action-card header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e1e6ec;
+  background: #fff;
+}
+
+#sdcorejs-link-insight-jira-action-card h2,
+#sdcorejs-link-insight-jira-action-card h3,
+#sdcorejs-link-insight-jira-action-card p,
+#sdcorejs-link-insight-jira-action-card dl {
+  margin: 0;
+}
+
+#sdcorejs-link-insight-jira-action-card h2 {
+  font-size: 17px;
+}
+
+.sdcorejs-link-insight-jira-card-body {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+#sdcorejs-link-insight-jira-action-card [data-view] {
+  display: grid;
+  gap: 14px;
+}
+
+#sdcorejs-link-insight-jira-action-card label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+#sdcorejs-link-insight-jira-action-card input,
+#sdcorejs-link-insight-jira-action-card textarea,
+#sdcorejs-link-insight-jira-action-card select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid #9da8b3;
+  border-radius: 7px;
+  background: #fff;
+  color: #17212b;
+  font: inherit;
+}
+
+.sdcorejs-link-insight-jira-fields {
+  display: grid;
+  gap: 12px;
+}
+
+.sdcorejs-link-insight-jira-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+#sdcorejs-link-insight-jira-action-card button,
+#sdcorejs-link-insight-jira-action-card a[data-action='jira-fallback'] {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #aab4bf;
+  border-radius: 7px;
+  background: #fff;
+  color: #0b57d0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#sdcorejs-link-insight-jira-action-card button.is-primary {
+  border-color: #0b57d0;
+  background: #0b57d0;
+  color: #fff;
+}
+
+#sdcorejs-link-insight-jira-action-card button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.sdcorejs-link-insight-jira-notice {
+  padding: 10px 12px;
+  border-radius: 7px;
+  background: #f1f5fa;
+}
+
+.sdcorejs-link-insight-jira-notice.is-error {
+  background: #fce8e6;
+  color: #8c1d18;
+}
+
+.sdcorejs-link-insight-jira-notice.is-success {
+  background: #e6f4ea;
+  color: #137333;
+}
+
+#sdcorejs-link-insight-jira-action-card dl {
+  display: grid;
+  grid-template-columns: minmax(90px, auto) 1fr;
+  gap: 6px 10px;
+}
+
+#sdcorejs-link-insight-jira-action-card dt {
+  font-weight: 700;
+}
+
+#sdcorejs-link-insight-jira-action-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #sdcorejs-link-insight-jira-actions,
+  #sdcorejs-link-insight-jira-action-card {
+    transition: none;
+  }
+}
